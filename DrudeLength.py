@@ -10,10 +10,12 @@ Built originally for [C4C1im][NTf2], but can be modified by changing the followi
         - ionDrudes is a list of the Drude particles
         - ionAtomDrude is a dictionary of which Drude core attaches to which Drude particle
         - ionDictionary is a list of indexes for each atom and drude. No order to it, only requires a unique index
-    - "if Molecule[:2] == XX" - Change to the first two atoms of the anion and cation. [C4C1im][NTf2] has C8 for the cation and C2 for the anion.
+    - "if Molecule[:2] == XX" - Change to the first two atoms of the anion and cation. [C4C1im][NTf2] has C8 for the 
+      cation and C2 for the anion.
 
-The complimentary script "DrudeAngle.py" uses the same dictionary definitions, but doe not have a built in error check for the Drude core - Drude particle 
-assignements. This script can be used as a pseudo-debug to get the correct ionAtomDrude dictionary definition.
+The complimentary script "DrudeAngle.py" uses the same dictionary definitions, but doe not have a built in error check for 
+the Drude core - Drude particle assignements. This script can be used as a pseudo-debug to get the correct ionAtomDrude 
+dictionary definition.
 '''
 
 import numpy as np

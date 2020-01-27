@@ -1,11 +1,12 @@
 '''
 Edit .eps files to allow compatability with LaTeX
 
-Known bug where having the bounding box at the end of an eps file makes it 
-unrecognisable to eps2pdf.
+There is a known bug where having the bounding box at the end of an eps file 
+makes it unrecognisable to eps2pdf.
 
-This script fins every .eps file within the diretory and all subdirectories 
-and moves the bounding box to the top of the file if it is at the bottom.
+This script finds every .eps file within the directory and all subdirectories 
+in which it is run and moves the bounding box to the top of the file if it is 
+at the bottom.
 '''
 
 import os
