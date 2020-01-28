@@ -61,7 +61,7 @@ BigArea = np.zeros(maxAng)
 SmallArea = np.zeros(maxAng)
 AreaSlice = np.zeros(maxAng)
 for angles in range(maxAng):
-     AreaSlice[angles] = 2*np.pi*(1-np.pi*np.cos((angles+1)*np.pi/180))-2*np.pi*(1-np.pi*np.cos((angles)*np.pi/180))
+    AreaSlice[angles] = 2*np.pi*(1-np.pi*np.cos((angles+1)*np.pi/180))-2*np.pi*(1-np.pi*np.cos((angles)*np.pi/180))
  
 # Pre-allocate vectors for analysis
 xdist = np.zeros(nTimeSteps*noParticles)
@@ -78,34 +78,34 @@ firstMarker=True
 for line in open(File):
     
     if line[:2]==originMarker and firstMarker:
-		# Pull out position of the origin of the vector (should be first in list)
+        # Pull out position of the origin of the vector (should be first in list)
         xyz = line.split()
         ogX = float(xyz[1])*100. #Convert from angstrom to pm
         ogY = float(xyz[2])*100.
         ogZ = float(xyz[3])*100.
-		firstMarker=False
-        
+        firstMarker=False
+
     if line[:2]==endMarker and not firstMarker:
-		# Pull out position of the end of the vector (should be second in list)
+        # Pull out position of the end of the vector (should be second in list)
         xyz = line.split()
         endX = float(xyz[1])*100.
         endY = float(xyz[2])*100.
-		endZ = float(xyz[3])*100.
-		firstMarker=True
-		
-		# Calcuate the length of the charge arm in each direction
-		xdist[atomCounter] = endX-ogX
-		ydist[atomCounter] = endY-ogY
-		zdist[atomCounter] = endZ-ogZ
-		
-		# Describe the charge arm with a single vector (easier for angle calculations)
-		vector = np.array([endX-ogX],[endY-ogY],[endZ-ogZ])
-		
-		# Calculate the angle of the charge arm with respect to each vector of the box
+        endZ = float(xyz[3])*100.
+        firstMarker=True
+
+        # Calcuate the length of the charge arm in each direction
+        xdist[atomCounter] = endX-ogX
+        ydist[atomCounter] = endY-ogY
+        zdist[atomCounter] = endZ-ogZ
+
+        # Describe the charge arm with a single vector (easier for angle calculations)
+        vector = np.array([endX-ogX],[endY-ogY],[endZ-ogZ])
+
+        # Calculate the angle of the charge arm with respect to each vector of the box
         xangles[atomCounter] = angle(vector,[1,0,0])
-		yangles[atomCounter] = angle(vector,[0,1,0])
-		zangles[atomCounter] = angle(vector,[0,0,1])
-		
+        yangles[atomCounter] = angle(vector,[0,1,0])
+        zangles[atomCounter] = angle(vector,[0,0,1])
+
         atomCounter+=1
         
         if int(atomCounter/noParticles)*noParticles == atomCounter and int(atomCounter/noParticles)==1:
