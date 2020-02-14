@@ -36,6 +36,7 @@ Example:
 	 those output trajectories.
 '''
 import numpy as np
+import sys
 import matplotlib.pyplot as plt
 
 # Parameters to change
@@ -61,7 +62,7 @@ BigArea = np.zeros(maxAng)
 SmallArea = np.zeros(maxAng)
 AreaSlice = np.zeros(maxAng)
 for angles in range(maxAng):
-    AreaSlice[angles] = 2*np.pi*(1-np.pi*np.cos((angles+1)*np.pi/180))-2*np.pi*(1-np.pi*np.cos((angles)*np.pi/180))
+    AreaSlice[angles] = 2*np.pi*(1-np.pi*np.cos(( angles+1 )*np.pi/180))-2*np.pi*(1-np.pi*np.cos(( angles )*np.pi/180))
  
 # Pre-allocate vectors for analysis
 xdist = np.zeros(nTimeSteps*noParticles)
@@ -99,7 +100,7 @@ for line in open(File):
         zdist[atomCounter] = endZ-ogZ
 
         # Describe the charge arm with a single vector (easier for angle calculations)
-        vector = np.array([endX-ogX],[endY-ogY],[endZ-ogZ])
+        vector = np.array([endX-ogX,endY-ogY,endZ-ogZ])
 
         # Calculate the angle of the charge arm with respect to each vector of the box
         xangles[atomCounter] = angle(vector,[1,0,0])
@@ -118,14 +119,14 @@ for line in open(File):
             sys.stdout.write("\r%i of %i" %(int(atomCounter/noParticles),nTimeSteps))
 
 # Calculate length histograms        
-histX = np.histogram(xdist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
-histY = np.histogram(ydist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
-histZ = np.histogram(zdist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
+histXLen = np.histogram(xdist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
+histYLen = np.histogram(ydist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
+histZLen = np.histogram(zdist, bins=noBinsLength, range=None, normed=None, weights=None, density=False)
 
 # Collect bin edges (range) and no values in each bin (noPoints)
-rangesX = histX[1];noPointsX = histX[0]
-rangesY = histY[1];noPointsY = histY[0]
-rangesZ = histZ[1];noPointsZ = histZ[0]
+rangesX = histXLen[1];noPointsX = histXLen[0]
+rangesY = histYLen[1];noPointsY = histYLen[0]
+rangesZ = histZLen[1];noPointsZ = histZLen[0]
 
 # Save length histograms to file
 f = open("XLength.txt","w")
@@ -147,19 +148,19 @@ for i in range(len(noPointsZ)):
 f.close()
 
 # Calculate angle histograms
-histx = np.histogram(xangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
-histy = np.histogram(yangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
-histz = np.histogram(zangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
+histXAng = np.histogram(xangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
+histYAng = np.histogram(yangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
+histZAng = np.histogram(zangles, bins=180, range=(0,np.pi), normed=None, weights=None, density=False)
 
 # Convert bin edges from radians to degrees
-xAngleX = histX[1]/np.pi*180
-yAngleX = histY[1]/np.pi*180
-zAngleX = histZ[1]/np.pi*180
+xAngleX = histXAng[1]/np.pi*180
+yAngleX = histYAng[1]/np.pi*180
+zAngleX = histZAng[1]/np.pi*180
 
 # Apply cone correction to histogram values
-xAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histX[0]);xAngleY = histX[0]/xAreaSlice
-yAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histY[0]);yAngleY = histY[0]/yAreaSlice
-zAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histZ[0]);zAngleY = histZ[0]/ZAreaSlice
+xAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histXAng[0]);xAngleY = histXAng[0]/xAreaSlice
+yAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histYAng[0]);yAngleY = histYAng[0]/yAreaSlice
+zAreaSlice = AreaSlice/np.mean(AreaSlice)*np.mean(histZAng[0]);zAngleY = histZAng[0]/zAreaSlice
 
 # Save angle histograms to file
 f = open("XAngle.txt","w")
