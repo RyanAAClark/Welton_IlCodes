@@ -404,9 +404,9 @@ MsdXOut.close(); MsdYOut.close(); MsdZOut.close(); MsdTotOut.close()
 
 # Save MD raw data and fit
 MdXOutName = "Md_X.txt"; MdXOut=open(MdXOutName,"w"); MdXOut.write("# Time[ps]; MD [pm]; Fit\n")
-MdYOutName = "Md_X.txt"; MdYOut=open(MdYOutName,"w"); MdYOut.write("# Time[ps]; MD [pm]; Fit\n")
-MdZOutName = "Md_X.txt"; MdZOut=open(MdZOutName,"w"); MdZOut.write("# Time[ps]; MD [pm]; Fit\n")
-MdTotOutName = "Md_X.txt"; MdTotOut=open(MdTotOutName,"w"); MdTotOut.write("# Time[ps]; MD [pm]; Fit\n")
+MdYOutName = "Md_Y.txt"; MdYOut=open(MdYOutName,"w"); MdYOut.write("# Time[ps]; MD [pm]; Fit\n")
+MdZOutName = "Md_Z.txt"; MdZOut=open(MdZOutName,"w"); MdZOut.write("# Time[ps]; MD [pm]; Fit\n")
+MdTotOutName = "Md_Tot.txt"; MdTotOut=open(MdTotOutName,"w"); MdTotOut.write("# Time[ps]; MD [pm]; Fit\n")
 
 for i in range(len(timeArray)):
     MdXOut.write("%10.3f;\t%12.6f;\t%12.6f\n" %(timeArray[i], MdX[i], linear(timeArray[i], mdXFit[0], mdXFit[1])))
