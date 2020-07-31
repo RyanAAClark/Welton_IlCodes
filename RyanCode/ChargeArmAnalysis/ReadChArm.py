@@ -24,6 +24,8 @@ def readCharm(x, COM = True, COC = True, ChArm = True, Len = True):
 				splitLine = line.split(" ")
 				tSteps = int(splitLine[2].strip())
 				noIons = int(splitLine[4].strip())
+				boxSize = float(splitLine[6].strip())
+				extractedParams = [tSteps,noIons,boxSize]
 				break
 	except:
 		print("Error: trajectory file is invalid")
@@ -65,4 +67,4 @@ def readCharm(x, COM = True, COC = True, ChArm = True, Len = True):
 				lenChArm=float(lineSplit[9].strip()) #length
 			ionNo+=1
 	pbar.close()
-	return com, coc, chArm, lenChArm
+	return com, coc, chArm, lenChArm, extractedParams

@@ -49,7 +49,7 @@ def strToEmp(x):
 	
 atomMassDictionary = {"C":11.611,"H":1.008,"F":18.998,"N":13.607,"O":15.599,"S":31.666,"B":10.411,"X":0.4} # Dictionary of masses of atoms
 
-noParticlesNext = False
+noParticlesNext = False;boxSizeNext = False
 totalNoIons = 0
 formulaList = ["",""] ; tempFormula = ""
 ionChargeList = [0,0] 
@@ -64,6 +64,16 @@ for line in open(trajectoryFile,'r'):
 	
 	splitLine = line.split()
 	
+	# Pulls box size information out of trajectory
+	if boxSizeNext == True:
+		boxSize = float(splitLine[1])-float(splitLine[0])
+		boxSizeNext = False
+		
+	# Activates flag for box size measuring
+	if "BOUNDS" in splitLine:
+		if tSteps == 1:
+			boxSizeNext = True
+	
 	# Pulls out number of particles in simulation in first timestep only
 	if noParticlesNext == True: 
 		noParticles = int(splitLine[0])
@@ -74,7 +84,7 @@ for line in open(trajectoryFile,'r'):
 		if tSteps == 0:
 			noParticlesNext = True
 		tSteps+=1
-		
+	
 	if tSteps==1: # Recognise one ion in first timestep
 		
 		# Try statement needed as some line splits do not have a second value, leads to errors if removed
@@ -287,8 +297,8 @@ anOutFile =  "[" + anionFormula + "]in[" + cationFormula + "][" + anionFormula +
 catOutWrite = open(catOutFile,"w")
 anOutWrite = open(anOutFile,"w")
 
-catOutWrite.write("$$ NoTimeSteps= %i NoIons= %i\n" %(tSteps,noIons))
-anOutWrite.write("$$ NoTimeSteps= %i NoIons= %i\n" %(tSteps,noIons))
+catOutWrite.write("$$ NoTimeSteps= %i NoIons= %i BoxSize= %f\n" %(tSteps,noIons,boxSize))
+anOutWrite.write("$$ NoTimeSteps= %i NoIons= %i BoxSize= %f\n" %(tSteps,noIons,boxSize))
 
 catOutWrite.write("#COM coordinates (x,y,z); COC coordinates (x,y,z); Charge arm vector (x,y,z); Charge Arm Length\n")
 anOutWrite.write("#COM coordinates (x,y,z); COC coordinates (x,y,z); Charge arm vector (x,y,z); Charge Arm Length\n")
@@ -313,13 +323,13 @@ catOutWrite.close()
 anOutWrite.close()
 
 
-print("Average length of cation charge arm = %f pm"%(np.mean(cationChArmLength)))
-print("Average length of anion charge arm = %f pm"%(np.mean(anionChArmLength)))
+print("Average length of cation charge arm = %f angstrom"%(np.mean(cationChArmLength)))
+print("Average length of anion charge arm = %f angstrom"%(np.mean(anionChArmLength)))
 
-cationChArmLength = np.reshape(cationChArmLength,np.count_nonzero(cationChArmLength))
-anionChArmLength = np.reshape(anionChArmLength,np.count_nonzero(anionChArmLength))
-plt.hist(cationChArmLength,histtype='step')
-plt.hist(anionChArmLength,histtype='step')
-plt.show()
+# cationChArmLength = np.reshape(cationChArmLength,np.count_nonzero(cationChArmLength))
+# anionChArmLength = np.reshape(anionChArmLength,np.count_nonzero(anionChArmLength))
+# plt.hist(cationChArmLength,histtype='step')
+# plt.hist(anionChArmLength,histtype='step')
+# plt.show()
 
 
