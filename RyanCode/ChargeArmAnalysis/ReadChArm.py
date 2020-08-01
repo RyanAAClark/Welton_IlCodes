@@ -64,7 +64,7 @@ def readCharm(x, COM = True, COC = True, ChArm = True, Len = True):
 				chArm[tStep,ionNo,1]=float(lineSplit[7].strip()) #y
 				chArm[tStep,ionNo,2]=float(lineSplit[8].strip()) #z
 			if Len:
-				lenChArm=float(lineSplit[9].strip()) #length
+				lenChArm[tStep,ionNo]=float(lineSplit[9].strip()) #length
 			ionNo+=1
 	pbar.close()
 	return com, coc, chArm, lenChArm, extractedParams
