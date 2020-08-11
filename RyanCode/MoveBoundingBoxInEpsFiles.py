@@ -40,7 +40,7 @@ for eachFile in files:
     
     ## Edit file if it needs editing
     if needsEditing==True:
-        print "Editing file: %s" %(eachFile)
+        print("Editing file: %s" %(eachFile))
         s = open(eachFile).read()
         s = s.replace("%%BoundingBox: (atend)\n", newString)
         f = open(eachFile, 'w')
