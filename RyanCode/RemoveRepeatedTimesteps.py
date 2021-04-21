@@ -14,8 +14,8 @@ repeated steps removed.
 import numpy as np
 from collections import Counter
 
-File = "new_dump.lammpstrj" #File with repeated timesteps
-newFileName = "new_new_dump.lammpstrj" #Name for the trajectory to write without any repeated timesteps
+File = "dump.lammpstrj" #File with repeated timesteps
+newFileName = "new_dump.lammpstrj" #Name for the trajectory to write without any repeated timesteps
 
 timestepVals = []
 
